@@ -146,11 +146,11 @@ class MaternityModifyPageState extends State<MaternityModifyPage>{
   Widget build(BuildContext context) {
 
     if(widget.listfromserver_mat_mo.isNotEmpty){
-      if(sowID1_Controller.text.isEmpty) {
+      if(birth_year_Controller.text.isEmpty) {
         print("분만사 수정 페이지 : ");
         print(widget.listfromserver_mat_mo);
-        sowID1_Controller.text = widget.listfromserver_mat_mo[1].toString().split("-")[0];
-        sowID2_Controller.text = widget.listfromserver_mat_mo[1].toString().split("-")[1];
+        sowID1 = widget.listfromserver_mat_mo[1].toString().split("-")[0];
+        sowID2 = widget.listfromserver_mat_mo[1].toString().split("-")[1];
 
         birth_year_Controller.text = widget.listfromserver_mat_mo[3].toString().split("-")[0];
         birth_month_Controller.text = widget.listfromserver_mat_mo[3].toString().split("-")[1];
@@ -217,14 +217,15 @@ class MaternityModifyPageState extends State<MaternityModifyPage>{
                               ]),
                               Column(children:[
                                 TextField(controller: sowID1_Controller,
-                                  decoration: const InputDecoration(hintText: " "),style: TextStyle(fontSize: 20),keyboardType: TextInputType.number,textAlign: TextAlign.center,),
+                                  decoration: const InputDecoration(hintText: " "),style: TextStyle(fontSize: 20),keyboardType: TextInputType.number,textAlign: TextAlign.center,
+                                  enabled: false,),
                               ]),
                               Column(children:[
                                 Text('-',style: TextStyle(fontSize: 20),textAlign: TextAlign.center,)
                               ], ),
                               Column(children:[
                                 TextField(controller: sowID2_Controller,
-                                  decoration: const InputDecoration(hintText: " "),style: TextStyle(fontSize: 20),keyboardType: TextInputType.text,textAlign: TextAlign.center,),
+                                  decoration: const InputDecoration(hintText: " "),style: TextStyle(fontSize: 20),keyboardType: TextInputType.number,textAlign: TextAlign.center,),
                               ]),
 
                             ],),
@@ -536,7 +537,7 @@ class MaternityModifyPageState extends State<MaternityModifyPage>{
                             child: Icon(Icons.arrow_circle_right_sharp),
                             tooltip: 'send updated ocr',
                             onPressed: () async{
-                              sow_no = sowID1_Controller.text + "-" + sowID2_Controller.text;
+                              sow_no = sowID1 + "-" + sowID2;
                               sow_birth = birth_year_Controller.text +"-" + birth_month_Controller.text + "-" + birth_day_Controller.text;
                               sow_buy = adoption_year_Controller.text + "-" +  adoption_month_Controller.text + "-" + adoption_day_Controller.text;
                               sow_expectdate = expect_year_Controller.text + "-" + expect_month_Controller.text + "-" + expect_day_Controller.text;

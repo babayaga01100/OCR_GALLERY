@@ -10,29 +10,33 @@ import 'package:ntp/ntp.dart';
 import 'package:path_provider/path_provider.dart';
 
 send_date_pregnant(List sendlist) async {
+
   print("send_date_pregnant");
-  final api = 'http://211.107.210.141:3000/api/ocrPregnantSendDate';
+  final api = 'https://www.dfxsoft.com/api/ocrPregnantSendDate';
   final dio = Dio();
 
   final data={
     'everysunday':sendlist
   };
+
   Response response;
   print(data);
   response = await dio.post(api, data:data);
+
   if(response.statusCode==200){
     print("날짜보내기 성공");
+    print("******return response.data*******");
+    print(response.data);
   }
   else{
     print("날짜보내기 실패");
   }
-  print("returndata");
-  print(response.data);
+  return response.data;
 }
 
 send_date_maternity(List sendlist) async {
   print("materntiy");
-  final api = 'http://211.107.210.141:3000/api/ocrMaternitySendDate';
+  final api = 'https://www.dfxsoft.com/api/ocrMaternitySendDate';
   final dio = Dio();
 
   final data={
@@ -48,13 +52,14 @@ send_date_maternity(List sendlist) async {
   else{
     print("날짜보내기 실패");
   }
-  print("returndata");
+  print("교배, 이유, 총산자수 데이터 들어오실게요");
   print(response.data);
+  return response.data;
 }
 
 ocrTargetInsertUpate(String yyyy, String mm, String sow_totalbaby, String sow_feedbaby, String sow_sevrer, String sow_cross) async {
   print("ocrTargetInsertUpate");
-  final api = 'http://211.107.210.141:3000/api/ocrTargetInsertUpdate';
+  final api = 'https://www.dfxsoft.com/api/ocrTargetInsertUpdate';
   final dio = Dio();
 
   final data={
@@ -77,9 +82,11 @@ ocrTargetInsertUpate(String yyyy, String mm, String sow_totalbaby, String sow_fe
   print("returndata-목표값");
   print(response.data);
 }
+
 ocrTargetSelectedRow(String yyyy, String mm) async {
   print("ocrTargetInsertUpate");
-  final api = 'http://211.107.210.141:3000/api/ocrTargetSelectedRow';
+  final api = 'https://www.dfxsoft.com/api/ocrTargetSelectedRow';
+
   final dio = Dio();
 
   final data={
@@ -100,9 +107,10 @@ ocrTargetSelectedRow(String yyyy, String mm) async {
   // 총산자수, 포유, 이유, 교배 순
   return response.data;
 }
+
 // 서버로 임신사 사진 보내는 api
 Future<List> uploadimg_pregnant(File file)async{
-  final api = 'http://211.107.210.141:3000/api/ocrImageUpload';
+  final api = 'https://www.dfxsoft.com/api/ocrImageUpload';
   final dio = Dio();
 
   DateTime currentTime = await NTP.now();
@@ -129,7 +137,7 @@ Future<List> uploadimg_pregnant(File file)async{
 
 // 선택한 임신사 기록 불러오기, ocr_seq를 보내고 그 값을 받아옴
 pregnant_selectrow(int num) async{
-  final api ='http://211.107.210.141:3000/api/ocr_pregnantSelectedRow';
+  final api ='https://www.dfxsoft.com/api/ocr_pregnantSelectedRow';
   final data = {
     "ocr_seq": num, //pk
   };
@@ -146,7 +154,7 @@ pregnant_selectrow(int num) async{
 }
 
 pregnant_deleterow(int num) async{
-  final api ='http://211.107.210.141:3000/api/ocr_pregnantDelete';
+  final api ='https://www.dfxsoft.com/api/ocr_pregnantDelete';
   final data = {
     "ocr_seq": num, //pk
   };
@@ -169,7 +177,7 @@ Future<String> downloadFile(String imgname) async {
   String returnfilepath = "";
   Dio dio = Dio();
   try {
-    var serverurl = "http://211.107.210.141:3000/api/ocrGetImage/"+imgname;
+    var serverurl = 'https://www.dfxsoft.com/api/ocrGetImage/'+imgname;
     print(serverurl);
     var dir = await getApplicationDocumentsDirectory();
     await dio.download(serverurl, '${dir.path}/'+imgname,
@@ -194,7 +202,7 @@ pregnant_getocr() async {
   List<String> list_upload_day = [];
   List<dynamic> list_add = [];
 
-  final api ='http://211.107.210.141:3000/api/getOcr_pregnant';
+  final api ='https://www.dfxsoft.com/api/getOcr_pregnant';
   final dio = Dio();
   Response response = await dio.get(api);
 
@@ -230,7 +238,7 @@ pregnant_getocr() async {
 
 // 임신사 기록 지우기
 delete_pregnant() async{
-  final api ='http://211.107.210.141:3000/api/ocrDeleteAll';
+  final api ='https://www.dfxsoft.com/api/ocrDeleteAll';
 
   final dio = Dio();
   Response response;
@@ -244,7 +252,7 @@ delete_pregnant() async{
 
 // 서버로 분만사 사진 보내는 api
 Future<List> uploadimg_maternity(File file)async{
-  final api ='http://211.107.210.141:3000/api/ocrImageUpload';
+  final api ='https://www.dfxsoft.com/api/ocrImageUpload';
   final dio = Dio();
 
   DateTime currentTime = await NTP.now();
@@ -272,7 +280,7 @@ Future<List> uploadimg_maternity(File file)async{
 
 // 선택한 분만사 기록 불러오기, ocr_seq를 보내고 그 값을 받아옴
 maternity_selectrow(int num) async {
-  final api ='http://211.107.210.141:3000/api/ocr_maternitySelectedRow';
+  final api ='https://www.dfxsoft.com/api/ocr_maternitySelectedRow';
   final data = {
     "ocr_seq":num,
   };
@@ -297,7 +305,7 @@ maternity_getocr() async {
   List<String> list_upload_day = [];
   List<dynamic> list_add = [];
 
-  final api ='http://211.107.210.141:3000/api/getOcr_maternity';
+  final api ='https://www.dfxsoft.com/api/getOcr_maternity';
   final dio = Dio();
   Response response = await dio.get(api);
 
@@ -331,7 +339,7 @@ maternity_getocr() async {
   return list_add;
 }
 maternity_deleterow(int num) async{
-  final api ='http://211.107.210.141:3000/api/ocr_maternityDelete';
+  final api ='https://www.dfxsoft.com/api/ocr_maternityDelete';
   final data = {
     "ocr_seq": num, //pk
   };
